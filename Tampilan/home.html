@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+    <section class="home">
+        <header>
+            <span class="header-logo logo">Math.<span class="green-text">Solver</span></span>
+            <!-- Saat Sudah Login -->
+            <div class="link-group">
+                <a href="home.html">Home</a>
+                <a href="savehistory.html#history-group">History</a>
+                <a href="savehistory.html">Saved</a>
+            </div>
+            <!-- Bila Belum Login -->
+            <!-- <div class="head-auth"> -->
+                <!-- <button onclick="location.href='login.html'" class="button btn-white">Login</a> -->
+                <!-- <button onclick="location.href='register.html'" class="btn-green">Signup</button> -->
+            <!-- </div> -->
+            <!-- Bila Sudah Login -->
+            <div class="profil-area">
+                <span class="profil-name">Budi Iwak</span>
+                <div class="profil-image"  onclick="toggleOverlay()">
+                    <img src="profil-icon.webp" alt="profile">
+                    <!-- Overlay Menu -->
+                    <div class="profil-overlay" id="profilOverlay">
+                        <button onclick="logout()" class="logout-button">Log Out</button>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <div class="main">
+            <div class="hero">
+                <div class="title-area">
+                    <div class="title">
+                        <span class="title-1 white-text">Start Solving MATH <span class="green-text">in Easy Way</span></span>
+                        <span class="title-2">Struggling with math problems? Find the solution here!</span>
+                    </div>
+                    <!-- Bila Belum Login -->
+                    <!-- <button onclick="location.href='register.html'" class="button-normal btn-green">Register</button> -->
+                    <!-- Bila Sudah Login -->
+                    <button onclick="scrollToCenter()" class="button-normal btn-green">Go!</button>
+                    
+                </div>
+                <div class="illustration">
+                    <img src="Home-Illustration.webp" alt="illustration">
+                </div>
+            </div>
+            <div class="input-group" id="input-group">
+                <form class="upload-area" id="upload-area" enctype="multipart/form-data">
+                    <input type="file" name="up-soal" id="up-soal" style="display: none;">
+                    <button id="up-button" class="button-normal-rd btn-blue">Upload Image</button>
+                    <span class="text-drag">or drop a photo here</span>
+                    <img id="preview-image" style="display: none; max-height: 200px; margin-top: 16px; border-radius: 12px;" />
+                    <button class="button-round btn-red" id="remove-image" style="display: none; position: absolute; top: 12px; right: 12px; height: 30px; width: 30px; padding: 4px; border: none; font-size: 20px; cursor: pointer; border-radius: 50%;">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                    <button type="submit" class="button-normal-rd btn-green" id="solve-button" style="display: none; margin-top: 12px;">
+                        Solve
+                    </button>
+                </form>
+                <div class="write-input">
+                    <span class="grey-text">No image? No problem. Write it down and we'll solve it step by step.</span>
+                    <a href="writequestion.html" class="button-round btn-white-purple">Write and Solve</a>
+                </div>
+            </div>
+            <div class="our-features">
+                <div class="head">
+                    <span class="head-title-1">Our Features</span>
+                    <span class="head-title-2">A fresh new way to solve math problems</span>
+                </div>
+                <div class="content">
+                    <div class="card">
+                        <div class="card-title">
+                            <div class="title-logo">
+                                <img src="step-by-step.webp" alt="">
+                            </div>
+                            <div class="title">Step-by-Step Solutions</div>
+                        </div>
+                        <span class="card-body">
+                            No more confusion—understand every part of the problem with clear, detailed, and logical steps that guide you from question to solution.
+                        </span>
+                    </div>
+                    <div class="card">
+                        <div class="card-title">
+                            <div class="title-logo">
+                                <img src="foto-upload.webp" alt="">
+                            </div>
+                            <div class="title">Upload and Solve</div>
+                        </div>
+                        <span class="card-body">
+                            Upload your math question, and get an instant solution—no typing required!
+                        </span>
+                    </div>
+                    <div class="card">
+                        <div class="card-title">
+                            <div class="title-logo">
+                                <img src="write.webp" alt="">
+                            </div>
+                            <div class="title">Write and Solve</div>
+                        </div>
+                        <span class="card-body">
+                            Write your problem directly on the screen—our system reads it instantly and solves it for you with precision.
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <footer class="footer">
+            <div class="footer-line"></div>
+            <span class="footer-text white-text">© Math.Solver. All rights reserved.</span>
+        </footer>  
+    </section>
+    <script>
+        // ------------------ //
+        // Script Upload Area //
+        // ------------------ //
+        const uploadArea = document.getElementById('upload-area');
+        const fileInput = document.getElementById('up-soal');
+        const previewImage = document.getElementById('preview-image');
+        const removeButton = document.getElementById('remove-image');
+        const uploadButton = document.getElementById('up-button');
+        const uploadText = uploadArea.querySelector('.text-drag');
+        const solveButton = document.getElementById('solve-button');
+
+        // Tipe gambar yang diperbolehkan
+        const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+
+        // Drag Foto
+        uploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadArea.classList.add('dragover');
+        });
+
+        uploadArea.addEventListener('dragleave', () => {
+            uploadArea.classList.remove('dragover');
+        });
+
+        // Drop Foto
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea.classList.remove('dragover');
+
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+            const file = files[0];
+            if (allowedTypes.includes(file.type)) {
+                fileInput.files = files;
+
+                const event = new Event('change', { bubbles: true });
+                fileInput.dispatchEvent(event);
+            } else {
+                alert('Hanya file gambar yang diperbolehkan (jpg, png, gif, webp).');
+            }
+            }
+        });
+
+        // Click Button
+        uploadButton.addEventListener('click', (e) => {
+            e.preventDefault();
+            fileInput.click();
+        });
+
+        // Click Area
+        uploadArea.addEventListener('click', (e) => {
+            // Cegah agar klik tombol 'remove' tidak ikut trigger
+            if (e.target === fileInput || e.target === removeButton || e.target.closest('#remove-image')) return;
+
+            e.preventDefault();
+            fileInput.click();
+        });
+
+        // Saat file dipilih, tampilkan preview
+        fileInput.addEventListener('change', () => {
+        const file = fileInput.files[0];
+            if (file && allowedTypes.includes(file.type)) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    previewImage.src = e.target.result;
+                    previewImage.style.display = 'block';
+                    removeButton.style.display = 'block';
+                    solveButton.style.display = 'block';
+                    uploadButton.style.display = 'none';
+                    uploadText.style.display = 'none';
+
+                    // Disable input file agar tidak bisa diklik ulang
+                    fileInput.disabled = true;
+                    };
+                reader.readAsDataURL(file);
+            } else if (file) {
+                alert('Hanya file gambar yang diperbolehkan (jpg, png, gif, webp).');
+                fileInput.value = ''; // reset jika tipe salah
+            }
+        });
+
+        // Tombol silang untuk menghapus gambar
+        removeButton.addEventListener('click', (e) => {
+            e.preventDefault(); // jangan reload halaman
+            e.stopPropagation(); // Jangan trigger klik area upload
+            previewImage.src = '';
+            previewImage.style.display = 'none';
+            removeButton.style.display = 'none';
+            solveButton.style.display = 'none';
+            uploadButton.style.display = 'block';
+            uploadText.style.display = 'block';
+            fileInput.value = ''; // Reset input file
+
+            // Enable input file kembali
+            fileInput.disabled = false;
+        });
+
+        // ----------------------------------------- //
+        // Solve - EDIT DISINI UNTUK MENGIRIM GAMBAR //
+        // ----------------------------------------- //
+        solveButton.addEventListener('click', function(e) {
+            e.preventDefault(); // jangan reload halaman
+
+            const file = fileInput.files[0];
+            if (file) {
+                // Contoh kirim ke server pakai FormData
+                const formData = new FormData();
+                formData.append('image', file);
+
+                fetch('solve.php', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(res => res.json())
+                .then(data => {
+                    alert('Solusi diterima: ' + data.solution);
+                })
+                .catch(err => {
+                    alert('Gagal mengirim gambar.');
+                });
+            }
+        });
+
+        // ------------- //
+        // Script Scroll //
+        // ------------- //
+        function scrollToCenter() {
+            const element = document.getElementById("input-group");
+            const elementTop = element.getBoundingClientRect().top + window.scrollY;
+            const elementHeight = element.offsetHeight;
+            const windowHeight = window.innerHeight;
+            const scrollTo = elementTop - (windowHeight / 2) + (elementHeight / 2);
+
+            window.scrollTo({
+            top: scrollTo,
+            behavior: 'smooth'
+            });
+        }
+
+        // ------------- //
+        // Script Logout //
+        // ------------- //
+        // Toggle overlay menu
+        function toggleOverlay() {
+            const overlay = document.getElementById("profilOverlay");
+            overlay.style.display = (overlay.style.display === "block") ? "none" : "block";
+        }
+
+        // Log out action
+        function logout() {
+            alert("Logged out!");
+            // window.location.href = "logout.php"; // atau ke halaman logout sebenarnya
+        }
+
+        // Optional: click di luar overlay menutupnya
+        document.addEventListener("click", function(event) {
+            const profilArea = document.querySelector(".profil-area");
+            const overlay = document.getElementById("profilOverlay");
+            if (!profilArea.contains(event.target)) {
+                overlay.style.display = "none";
+            }
+        });
+    </script>  
+</body>
+</html>

@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Write Question</title>
+    <link rel="stylesheet" href="style.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" crossorigin="anonymous"/>
+
+    <!-- MathLive -->
+    <link rel="stylesheet" href="https://unpkg.com/mathlive/dist/mathlive.core.css">
+    <link rel="stylesheet" href="https://unpkg.com/mathlive/dist/mathlive.css">
+    <script src="https://unpkg.com/mathlive"></script>
+    <!-- <script src="https://unpkg.com/mathlive/dist/mathlive.min.js"></script> -->
+
+    <!-- KaTeX -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"
+        onload="renderMathInElement(document.body, {
+            delimiters: [
+                {left: '$$', right: '$$', display: true},
+                {left: '\\(', right: '\\)', display: false}
+            ]
+        });">
+    </script>
+    <style>
+        .katex { padding-left: 8px; padding-right: 8px; font: inherit; }
+    </style>
+</head>
+<body>
+    <section class="savehistory">
+        <header>
+            <span class="header-logo logo">Math.<span class="green-text">Solver</span></span>
+            <!-- Saat Sudah Login -->
+            <div class="link-group">
+                <a href="home.html">Home</a>
+                <a href="savehistory.html#history-group">History</a>
+                <a href="savehistory.html">Saved</a>
+            </div>
+            <!-- Bila Belum Login -->
+            <!-- <div class="head-auth"> -->
+                <!-- <button onclick="location.href='login.html'" class="button btn-white">Login</a> -->
+                <!-- <button onclick="location.href='register.html'" class="btn-green">Signup</button> -->
+            <!-- </div> -->
+            <!-- Bila Sudah Login -->
+            <div class="profil-area">
+                <span class="profil-name">Budi Iwak</span>
+                <div class="profil-image"  onclick="toggleOverlay()">
+                    <img src="profil-icon.webp" alt="profile">
+                    <!-- Overlay Menu -->
+                    <div class="profil-overlay" id="profilOverlay">
+                        <button onclick="logout()" class="logout-button">Log Out</button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div class="main">
+            <div class="navigation">
+                <button onclick="location.href='home.html'" class="button-small btn-red">
+                    <i title="back" class="fa fa-chevron-left"></i> Back
+                </button>
+            </div>
+            <div class="content">
+                <div class="saved-group" id="saved-group">
+                    <div class="title">Saved</div>
+                    <div class="saved-detail"  id="saved-container">
+                        <!-- Data Soal Tersimpan Ada Disini -->
+                    </div>
+                </div>
+                <div class="history-group" id="history-group">
+                    <div class="title">History</div>
+                    <div class="history-detail" id="history-container">
+                        <!-- Data Riwayat Soal Ada Disini -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <footer class="footer">
+            <div class="footer-line"></div>
+            <span class="footer-text white-text">© Math.Solver. All rights reserved.</span>
+        </footer>
+    </section>
+
+    <script>
+        // ------------- //
+        // Script Logout //
+        // ------------- //
+        // Toggle overlay menu
+        function toggleOverlay() {
+            const overlay = document.getElementById("profilOverlay");
+            overlay.style.display = (overlay.style.display === "block") ? "none" : "block";
+        }
+
+        // Log out action
+        function logout() {
+            alert("Logged out!");
+            // window.location.href = "logout.php"; // atau ke halaman logout sebenarnya
+        }
+
+        // Optional: click di luar overlay menutupnya
+        document.addEventListener("click", function(event) {
+            const profilArea = document.querySelector(".profil-area");
+            const overlay = document.getElementById("profilOverlay");
+            if (!profilArea.contains(event.target)) {
+                overlay.style.display = "none";
+            }
+        });
+
+
+        // ------------ //
+        // Script KaTex //
+        // ------------ //
+
+        const savedQuestions = [
+            {
+                date: "March 28, 2025",
+                soal: [
+                    "Selesaikan persamaan: \\( 2x + 4 = 12 \\)",
+                    "\\( x^2 - 9 = 0 \\)"
+                ]
+            },
+            {
+                date: "March 27, 2025",
+                soal: [
+                    "Faktorkan: \\( x^2 + 4x + 4 \\)"
+                ]
+            },
+            {
+                date: "March 28, 2025",
+                soal: [
+                    "Selesaikan persamaan: \\( 2x + 4 = 12 \\)",
+                    "\\( x^2 - 9 = 0 \\)"
+                ]
+            },
+            {
+                date: "March 27, 2025",
+                soal: [
+                    "Faktorkan: \\( x^2 + 4x + 4 \\)"
+                ]
+            },
+            {
+                date: "March 28, 2025",
+                soal: [
+                    "Selesaikan persamaan: \\( 2x + 4 = 12 \\)",
+                    "\\( x^2 - 9 = 0 \\)"
+                ]
+            },
+            {
+                date: "March 27, 2025",
+                soal: [
+                    "Faktorkan: \\( x^2 + 4x + 4 \\)"
+                ]
+            }
+        ];
+
+        const historyQuestions = [
+            {
+                date: "March 23, 2025",
+                soal: [
+                    "Tentukan hasil: \\( x^2 + 4x + 12 = 20 \\)",
+                    "\\( x + 5 = 10 \\)"
+                ]
+            },
+            {
+                date: "March 22, 2025",
+                soal: [
+                    "Hitung: \\( x^2 - 16 = 0 \\)"
+                ]
+            }
+        ];
+
+        function renderQuestionList(containerId, dataArray) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = ''; // kosongkan dulu
+
+            dataArray.forEach(item => {
+                const soalGabung = item.soal.join(" | "); // Gabung soal dalam satu baris
+
+                let html = '';
+
+                if (containerId === "saved-container") {
+                    html = `
+                        <div onclick="location.href='#'" class="saved-item">
+                            <div class="date">${item.date}</div>
+                            <div class="question">
+                                <div class="ques" style="font-weight: bold;">Question:</div>
+                                <div class="ques-text">${soalGabung}</div>
+                            </div>
+                        </div>
+                    `;
+                } else if (containerId === "history-container") {
+                    html = `
+                        <div onclick="location.href='#'" class="history-item">
+                            <div class="date">${item.date}</div>
+                            <div class="question">
+                                <div class="ques" style="font-weight: bold;">Question:</div>
+                                <div class="ques-text">${soalGabung}</div>
+                            </div>
+                        </div>
+                    `;
+                }
+
+                container.innerHTML += html;
+            });
+        }
+
+        // Panggil fungsi render
+        renderQuestionList("saved-container", savedQuestions);
+        renderQuestionList("history-container", historyQuestions);
+
+        // Render KaTeX setelah data dimasukkan
+        if (typeof renderMathInElement === 'function') {
+            renderMathInElement(document.body, {
+                delimiters: [
+                    { left: "$$", right: "$$", display: true },
+                    { left: "\\(", right: "\\)", display: false }
+                ]
+            });
+        }
+    </script>
+</body>
+</html>

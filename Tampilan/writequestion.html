@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Write Question</title>
+    <link rel="stylesheet" href="style.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" crossorigin="anonymous"/>
+
+    <!-- MathLive -->
+    <link rel="stylesheet" href="https://unpkg.com/mathlive/dist/mathlive.core.css">
+    <link rel="stylesheet" href="https://unpkg.com/mathlive/dist/mathlive.css">
+    <script src="https://unpkg.com/mathlive"></script>
+    <!-- <script src="https://unpkg.com/mathlive/dist/mathlive.min.js"></script> -->
+
+    <style>
+        math-field {
+            display: block;
+            width: 100%;
+            padding: 0 10px;
+            font-family: inherit;
+            font-size: 24px;
+            border-radius: 8px;
+            border: 2px solid #E2E2E2;
+            cursor: text;
+        }
+    </style>
+</head>
+<body>
+    <section class="write">
+        <header>
+            <span class="header-logo logo">Math.<span class="green-text">Solver</span></span>
+            <!-- Saat Sudah Login -->
+            <div class="link-group">
+                <a href="home.html">Home</a>
+                <a href="savehistory.html#history-group">History</a>
+                <a href="savehistory.html">Saved</a>
+            </div>
+            <!-- Bila Belum Login -->
+            <!-- <div class="head-auth"> -->
+                <!-- <button onclick="location.href='login.html'" class="button btn-white">Login</a> -->
+                <!-- <button onclick="location.href='register.html'" class="btn-green">Signup</button> -->
+            <!-- </div> -->
+            <!-- Bila Sudah Login -->
+            <div class="profil-area">
+                <span class="profil-name">Budi Iwak</span>
+                <div class="profil-image"  onclick="toggleOverlay()">
+                    <img src="profil-icon.webp" alt="profile">
+                    <!-- Overlay Menu -->
+                    <div class="profil-overlay" id="profilOverlay">
+                        <button onclick="logout()" class="logout-button">Log Out</button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div class="main">
+            <div class="navigation">
+                <button onclick="location.href='home.html'" class="button-small btn-red">
+                    <i class="fa fa-chevron-left"></i> Back
+                </button>
+            </div>
+            <div class="input-container">
+                <div class="write">
+                    <div class="input-tool">
+                        <button id="btn-new" class="button-sm-sm btn-blue" style="border: 2px solid #4e57d4;">New Line</button>
+                        <button id="btn-reset" class="button-sm-sm btn-red">Reset</button>
+                        <button id="btn-solve" class="button-sm-sm btn-white-purple">Solve</button>
+                    </div>
+                </div>
+                <div class="math-container" id="math-container">
+                    <!-- <math-field id="input-box"
+                                style="width: 100%; font-size: 24px; border-radius: 8px; border: 2px solid #E2E2E2;">
+                    </math-field> -->
+                </div>
+            </div>
+            <span id="no-internet" style="width: 100%; padding: 0 105px 0; font-size: 12px; color: #AF0000; font-weight: bold;">
+                * Input MathLive mungkin tidak berfungsi bila tidak ada internet.
+            </span>
+        </div>
+
+        <footer class="footer">
+            <div class="footer-line"></div>
+            <span class="footer-text white-text">© Math.Solver. All rights reserved.</span>
+        </footer>
+    </section>
+
+    <!-- <script>
+        MathLive.renderMathInDocument(); // Ini untuk rendering latex (optional)
+
+        // Ini penting agar <math-field> dikenali browser
+        if (!customElements.get("math-field")) {
+            customElements.define("math-field", MathLive.MathfieldElement);
+        }
+    </script> -->
+
+    <script>
+        // ------------- //
+        // Script Logout //
+        // ------------- //
+        // Toggle overlay menu
+        function toggleOverlay() {
+            const overlay = document.getElementById("profilOverlay");
+            overlay.style.display = (overlay.style.display === "block") ? "none" : "block";
+        }
+
+        // Log out action
+        function logout() {
+            alert("Logged out!");
+            // window.location.href = "logout.php"; // atau ke halaman logout sebenarnya
+        }
+
+        // Optional: click di luar overlay menutupnya
+        document.addEventListener("click", function(event) {
+            const profilArea = document.querySelector(".profil-area");
+            const overlay = document.getElementById("profilOverlay");
+            if (!profilArea.contains(event.target)) {
+                overlay.style.display = "none";
+            }
+        });
+
+
+        // --------------- //
+        // Script Mathlive //
+        // --------------- //
+        document.addEventListener("DOMContentLoaded", () => {
+            const container = document.getElementById("math-container");
+            const btnNew = document.getElementById("btn-new");
+            const btnReset = document.getElementById("btn-reset");
+            const btnSolve = document.getElementById("btn-solve");
+
+            function addMathField() {
+                const mathField = document.createElement("math-field");
+                mathField.setAttribute("virtual-keyboard-mode", "onfocus");
+                mathField.setAttribute("virtual-keyboards", "all");
+                mathField.classList.add("custom-math-field");
+                container.appendChild(mathField);
+
+                // Tambahkan event listener untuk buka keyboard
+                mathField.addEventListener("focus", () => {
+                    mathField.executeCommand("showVirtualKeyboard");
+                });
+
+                mathField.focus();
+
+                // Tambahkan event listener untuk menangani tombol "Enter"
+                mathField.addEventListener("keydown", function(event) {
+                    if (event.key === "Enter") {
+                        event.preventDefault(); // Menghindari enter dari melakukan aksi default
+
+                        // Cek apakah ini field terakhir
+                        const allFields = container.querySelectorAll("math-field");
+                        const currentIndex = Array.from(allFields).indexOf(mathField);
+
+                        // Jika bukan field terakhir, pindah ke field berikutnya
+                        if (currentIndex < allFields.length - 1) {
+                            allFields[currentIndex + 1].focus();
+                        } else {
+                            // Jika field terakhir, lakukan tambah baru
+                            addMathField();
+                        }
+                    }
+                });
+            }
+
+            btnNew.addEventListener("click", addMathField);
+
+            btnReset.addEventListener("click", () => {
+                container.innerHTML = '';
+
+                addMathField();
+            });
+
+            btnSolve.addEventListener("click", () => {
+                const fields = container.querySelectorAll("math-field");
+                fields.forEach((field, i) => {
+                    const latex = field.getValue("latex");
+                    // alert(`Ekspresi ${i + 1}: ${latex}`);
+                    console.log(`Ekspresi ${i + 1}: ${latex}`);
+                });
+            });
+
+            // Tambahkan math-field pertama saat halaman dimuat
+            addMathField();
+        });
+    </script>
+</body>
+</html>
