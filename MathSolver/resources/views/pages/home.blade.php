@@ -13,11 +13,15 @@
             <div class="hero">
                 <div class="title-area">
                     <div class="title">
-                        <span class="title-1 white-text">Start Solving MATH <span class="green-text">in Easy Way</span></span>
+                        <span class="title-1 white-text">
+                            Start Solving 
+                            <span class="main-logo">Math.<span>In</span></span>
+                            <span class="green-text"> Easy Way</span>
+                        </span>
                         <span class="title-2">Struggling with math problems? Find the solution here!</span>
                     </div>
                     <!-- Bila Belum Login -->
-                    <!-- <button onclick="location.href='register.html'" class="button-normal btn-green">Register</button> -->
+                    <!-- <button onclick="location.href='{{ route('register') }}'" class="button-normal btn-green">Register</button> -->
                     <!-- Bila Sudah Login -->
                     <button onclick="scrollToCenter()" class="button-normal btn-green">Go!</button>
                     
@@ -27,7 +31,8 @@
                 </div>
             </div>
             <div class="input-group" id="input-group">
-                <form class="upload-area" id="upload-area" enctype="multipart/form-data">
+                <form class="upload-area" id="upload-area" enctype="multipart/form-data" action="#" method="POST">
+                    @csrf
                     <input type="file" name="up-soal" id="up-soal" style="display: none;">
                     <button id="up-button" class="button-normal-rd btn-blue">Upload Image</button>
                     <span class="text-drag">or drop a photo here</span>
@@ -41,7 +46,7 @@
                 </form>
                 <div class="write-input">
                     <span class="grey-text">No image? No problem. Write it down and we'll solve it step by step.</span>
-                    <a href="writequestion.html" class="button-round btn-white-purple">Write and Solve</a>
+                    <a href="{{ route('write') }}" class="button-round btn-white-purple">Write and Solve</a>
                 </div>
             </div>
             <div class="our-features">

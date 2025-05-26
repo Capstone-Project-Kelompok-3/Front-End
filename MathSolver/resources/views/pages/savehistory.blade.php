@@ -28,7 +28,7 @@
     <section class="savehistory">
         <div class="main">
             <div class="navigation">
-                <button onclick="location.href='home.html'" class="button-small btn-red">
+                <button onclick="location.href='{{ route('home') }}'" class="button-small btn-red">
                     <i title="back" class="fa fa-chevron-left"></i> Back
                 </button>
             </div>

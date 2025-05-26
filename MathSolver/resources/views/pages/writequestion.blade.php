@@ -29,7 +29,7 @@
     <section class="write">
         <div class="main">
             <div class="navigation">
-                <button onclick="location.href='home.html'" class="button-small btn-red">
+                <button onclick="location.href='{{ route('home') }}'" class="button-small btn-red">
                     <i class="fa fa-chevron-left"></i> Back
                 </button>
             </div>
