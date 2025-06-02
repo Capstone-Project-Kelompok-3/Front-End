@@ -7,7 +7,7 @@
         <title>@yield('title', 'Judul Default') | {{ config('app.name') }}</title>
 
         <link rel="canonical" href="{{ url()->current() }}">
-        <link rel="icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
+        <link rel="icon" href="{{ asset('favicon.png') }}" type="image/x-icon">
 
         <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 
