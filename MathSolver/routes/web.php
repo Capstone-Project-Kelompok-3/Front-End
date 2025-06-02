@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\MathController;
 
 
 Route::get('/login', function () {
@@ -39,3 +40,6 @@ Route::get('/answer', function () {
 Route::get('/save-history', function () {
     return view('pages.savehistory');
 })->name('saved');
+
+Route::post('/solve-from-image', [MathController::class, 'solveFromImage']);
+Route::post('/solve', [MathController::class, 'solve']);

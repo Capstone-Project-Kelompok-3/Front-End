@@ -10,6 +10,7 @@
         <meta name="keywords" content="@yield('keywords', 'default, kata kunci')">
         <meta name="author" content="@yield('author', 'Nama Anda atau Brand')">
         <meta name="robots" content="@yield('robots', 'index, follow')">
+        <meta name="csrf-token" content="{{ csrf_token() }}">
 
         <link rel="canonical" href="{{ url()->current() }}">
         <link rel="icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
