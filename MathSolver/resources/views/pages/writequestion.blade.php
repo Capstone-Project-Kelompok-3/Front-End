@@ -42,6 +42,7 @@
                     </div>
                 </div>
                 <div class="math-container" id="math-container"></div>
+                <div id="solution-output" class="solution-output" style="margin-top: 20px; padding: 10px; background-color: #f3f3f3; border-radius: 8px;"></div>
             </div>
             <span id="no-internet" style="width: 100%; padding: 0 105px 0; font-size: 12px; color: #AF0000; font-weight: bold;">
                 * Input MathLive mungkin tidak berfungsi bila tidak ada internet.

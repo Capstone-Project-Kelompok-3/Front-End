@@ -49,15 +49,39 @@
                 addMathField();
             });
 
-            btnSolve.addEventListener("click", () => {
-                const fields = container.querySelectorAll("math-field");
-                fields.forEach((field, i) => {
-                    const latex = field.getValue("latex");
-                    // alert(`Ekspresi ${i + 1}: ${latex}`);
-                    console.log(`Ekspresi ${i + 1}: ${latex}`);
+        btnSolve.addEventListener("click", () => {
+            const fields = container.querySelectorAll("math-field");
+            const latexList = Array.from(fields).map(field => field.getValue("latex"));
+        
+            fetch("/solve", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute("content")
+                },
+                body: JSON.stringify({ expressions: latexList })
+            })
+            .then(response => response.json())
+            .then(data => {
+                const outputDiv = document.getElementById("solution-output");
+                outputDiv.innerHTML = "";
+            
+                data.solutions.forEach((solution, index) => {
+                    const html = `
+                        <div class="solution" style="margin-bottom: 20px;">
+                            <h4>Soal ${index + 1}</h4>
+                            <p><strong>Jawaban:</strong> ${solution.answer}</p>
+                            <p><strong>Langkah-langkah:</strong></p>
+                            <ol>${solution.steps.map(step => `<li>${step}</li>`).join("")}</ol>
+                        </div>
+                    `;
+                    outputDiv.innerHTML += html;
                 });
+            })
+            .catch(error => {
+                console.error("Gagal memproses soal:", error);
             });
-
+        });
             // Tambahkan math-field pertama saat halaman dimuat
             addMathField();
         });
