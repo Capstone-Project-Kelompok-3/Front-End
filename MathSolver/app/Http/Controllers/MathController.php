@@ -18,10 +18,6 @@ class MathController extends Controller
         try {
             $file = $request->file('image');
 
-            // Jika ingin simpan sementara (optional):
-            // $path = $file->store('uploads');
-            // Log::info("File uploaded saved at: " . $path);
-
             // Kirim file ke API Flask dengan multipart/form-data
             $response = Http::attach(
                 'image',
@@ -33,23 +29,31 @@ class MathController extends Controller
             Log::info('Response status: ' . $response->status());
             Log::info('Response body: ' . $response->body());
 
-            // Pastikan response sukses dan valid JSON
             if ($response->successful()) {
                 $jsonData = $response->json();
 
-                // Contoh validasi response minimal
-                if (!isset($jsonData['latex']) || !isset($jsonData['solution_steps'])) {
+                if (!isset($jsonData['latex']) || (!isset($jsonData['solution_steps']) && !isset($jsonData['result']))) {
                     return response()->json([
                         'error' => 'Response API tidak valid',
                         'data' => $jsonData,
                     ], 500);
                 }
 
-                // Response sukses
-                return response()->json($jsonData);
+                $answer = $jsonData['result'] ?? ($jsonData['solution_steps'] ?? 'Tidak ada hasil');
+                $steps = [];
 
+                if (isset($jsonData['solution_steps'])) {
+                    $steps = explode("\n", $jsonData['solution_steps']);
+                } elseif (isset($jsonData['result'])) {
+                    $steps = [$jsonData['result']];
+                }
+
+                return response()->json([
+                    'latex' => $jsonData['latex'],
+                    'answer' => $answer,
+                    'steps' => $steps
+                ]);
             } else {
-                // Response gagal dari API Flask
                 return response()->json([
                     'error' => 'Gagal memproses gambar',
                     'status' => $response->status(),
@@ -57,7 +61,6 @@ class MathController extends Controller
                 ], 500);
             }
         } catch (\Exception $e) {
-            // Tangkap error unexpected dan log
             Log::error('Exception saat memproses gambar: ' . $e->getMessage());
 
             return response()->json([
@@ -73,7 +76,6 @@ class MathController extends Controller
         $solutions = [];
 
         foreach ($expressions as $expr) {
-            // Kirim teks latex ke API Flask
             $response = Http::post('http://127.0.0.1:5001/solve-text', [
                 'latex' => $expr
             ]);
@@ -81,13 +83,20 @@ class MathController extends Controller
             if ($response->successful()) {
                 $jsonData = $response->json();
 
-                // Ambil jawaban dan langkah dari response API Flask
+                $answer = $jsonData['result'] ?? ($jsonData['solution_steps'] ?? 'Tidak ada hasil');
+                $steps = [];
+
+                if (isset($jsonData['solution_steps'])) {
+                    $steps = explode("\n", $jsonData['solution_steps']);
+                } elseif (isset($jsonData['result'])) {
+                    $steps = [$jsonData['result']];
+                }
+
                 $solutions[] = [
-                    'answer' => $jsonData['solution_steps'] ?? 'Tidak ada solusi',
-                    'steps' => explode("\n", $jsonData['solution_steps'] ?? '')
+                    'answer' => $answer,
+                    'steps' => $steps
                 ];
             } else {
-                // Jika gagal, gunakan fallback dummy
                 $solutions[] = [
                     'answer' => 'Gagal mendapatkan solusi dari API',
                     'steps' => []
@@ -97,5 +106,4 @@ class MathController extends Controller
 
         return response()->json(['solutions' => $solutions]);
     }
-
 }
