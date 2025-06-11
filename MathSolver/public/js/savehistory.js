@@ -75,7 +75,12 @@ document.addEventListener("DOMContentLoaded", async () => {
             // Ensure `soal` is a string or handle arrays correctly if your backend sends it as such
             // Based on your backend, `soal` is a string (math probe text)
             // If it can contain multiple lines joined by '\n', then split it for display.
-            const displayQuestion = item.soal.replace(/\\n/g, ' | '); // Replace actual newlines with " | " for display
+            let displayQuestion = item.soal
+                .replace(/\\\\/g, '\\')   // Perbaiki escape karakter backslash
+                .replace(/\\n/g, ' | ');  // Ganti newline simbol
+
+            displayQuestion = `\\(${displayQuestion}\\)`;
+
 
             const date = new Date(item.waktu_input).toLocaleDateString('id-ID', {
                 year: 'numeric',
