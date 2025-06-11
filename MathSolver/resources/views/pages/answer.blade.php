@@ -18,7 +18,7 @@
         });">
     </script>
     <style>
-        .katex { font: inherit; }
+        .katex { font: inherit; text-align: left !important;}
     </style>
 @endpush
 
@@ -48,12 +48,12 @@
                         <!-- <div class="solu-item"></div> -->
                     </div>
                 </div>
-                <div class="answ-group">
+                {{-- <div class="answ-group">
                     <div class="title">Answer</div>
                     <div class="answ-detail" id="answer-container">
                         <!-- <div class="answ-item"></div> -->
                     </div>
-                </div>
+                </div> --}}
             </div>
         </div>
     </section>

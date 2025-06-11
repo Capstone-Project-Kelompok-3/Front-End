@@ -7,13 +7,13 @@
         <a href="{{ route('saved') }}">Saved</a>
     </div>
     <!-- Bila Belum Login -->
-    <!-- <div class="head-auth"> -->
-        <!-- <button onclick="location.href='{{ route('login') }}'" class="button btn-white">Login</a> -->
-        <!-- <button onclick="location.href='{{ route('register') }}'" class="btn-green">Signup</button> -->
-    <!-- </div> -->
+    <div class="head-auth" id="headerAuthButtons" style="display: none;">
+        <button onclick="location.href='{{ route('login') }}'" class="button btn-white">Login</a>
+        <button onclick="location.href='{{ route('register') }}'" class="btn-green">Signup</button>
+    </div>
     <!-- Bila Sudah Login -->
-    <div class="profil-area">
-        <span class="profil-name">Budi</span>
+    <div class="profil-area" id="headerProfileArea" style="display: none;">
+        <span class="profil-name" id="headerUserNameDisplay">Budi</span>
         <div class="profil-image"  onclick="toggleOverlay()">
             <img src="{{ asset('images/profil-icon.webp') }}" alt="profile">
             <!-- Overlay Menu -->

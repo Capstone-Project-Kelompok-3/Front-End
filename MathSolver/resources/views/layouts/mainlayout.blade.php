@@ -12,6 +12,8 @@
         <meta name="robots" content="@yield('robots', 'index, follow')">
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
+        <meta name="api-key" content="{{ config('app.api_key') }}">
+
         <link rel="canonical" href="{{ url()->current() }}">
         <link rel="icon" href="{{ asset('favicon.png') }}" type="image/png">
 

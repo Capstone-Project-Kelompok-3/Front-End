@@ -53,5 +53,4 @@
 @push('scripts')
     <!-- JavaScript -->
          <script src="{{ asset('js/savehistory.js') }}"></script>
-
 @endpush

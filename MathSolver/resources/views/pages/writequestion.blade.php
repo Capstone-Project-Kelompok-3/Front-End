@@ -79,9 +79,9 @@
                     <button id="btn-solve" class="button-sm-sm btn-white-purple">Solve</button>
                 </div>
             </div>
-            <math-field id="math-input" virtual-keyboard-mode="onfocus"></math-field>
+            {{-- <math-field id="math-input" virtual-keyboard-mode="onfocus"></math-field> --}}
             <div class="math-container" id="math-container"></div>
-            <div id="solution-output" class="solution-output"></div>
+            {{-- <div id="solution-output" class="solution-output"></div> --}}
         </div>
         <span id="no-internet" style="width: 100%; padding: 0 105px 0; font-size: 12px; color: #AF0000; font-weight: bold;">
             * Input MathLive mungkin tidak berfungsi bila tidak ada internet.
