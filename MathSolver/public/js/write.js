@@ -239,6 +239,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             }
 
             // 3. Store data to localStorage for the Answer page
+            alert(combinedQuestionLatex, solutionStepsText)
             localStorage.setItem('currentQuestion', combinedQuestionLatex);
             localStorage.setItem('currentSolutionSteps', solutionStepsText);
 

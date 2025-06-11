@@ -33,12 +33,12 @@
                 </button>
             </div>
             <div class="content">
-                <div class="saved-group" id="saved-group">
+                {{-- <div class="saved-group" id="saved-group">
                     <div class="title">Saved</div>
                     <div class="saved-detail"  id="saved-container">
                         <!-- Data Soal Tersimpan Ada Disini -->
                     </div>
-                </div>
+                </div> --}}
                 <div class="history-group" id="history-group">
                     <div class="title">History</div>
                     <div class="history-detail" id="history-container">

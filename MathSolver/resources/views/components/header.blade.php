@@ -3,8 +3,8 @@
     <!-- Saat Sudah Login -->
     <div class="link-group">
         <a href="{{ route('home') }}">Home</a>
-        <a href="{{ route('saved') }}#history-group">History</a>
-        <a href="{{ route('saved') }}">Saved</a>
+        <a href="{{ route('write') }}">Write</a>
+        <a href="{{ route('saved') }}">History</a>
     </div>
     <!-- Bila Belum Login -->
     <div class="head-auth" id="headerAuthButtons" style="display: none;">

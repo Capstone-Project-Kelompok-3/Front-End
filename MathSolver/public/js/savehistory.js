@@ -77,7 +77,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             // If it can contain multiple lines joined by '\n', then split it for display.
             const displayQuestion = item.soal.replace(/\\n/g, ' | '); // Replace actual newlines with " | " for display
 
-            const date = new Date(item.created_at).toLocaleDateString('id-ID', {
+            const date = new Date(item.waktu_input).toLocaleDateString('id-ID', {
                 year: 'numeric',
                 month: 'long',
                 day: 'numeric'
@@ -110,7 +110,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     window.redirectToAnswer = (id_soal) => {
         // Store the ID in localStorage or directly use it in the URL
         // We'll fetch the full details on the answer page using this ID
-        window.location.href = `{{ route('answer') }}?id_soal=${id_soal}`;
+        window.location.href = `/answer?id_soal=${id_soal}`;
     };
 
     // Fetch history data from the backend
@@ -147,14 +147,14 @@ document.addEventListener("DOMContentLoaded", async () => {
 
             // Split into saved and history based on a hypothetical 'is_saved' property
             const allItems = result.data || [];
-            const savedItems = allItems.filter(item => item.is_saved); // Assuming `is_saved` property
+            // const savedItems = allItems.filter(item => item.is_saved); // Assuming `is_saved` property
             const historyItems = allItems.filter(item => !item.is_saved); // Assuming `is_saved` property
 
             // If your backend only returns one type (e.g., all are history), you'd use:
             // const historyItems = allItems;
             // const savedItems = []; // Or fetch from a different endpoint
 
-            renderQuestionList(savedContainer, savedItems, "saved");
+            // renderQuestionList(savedContainer, savedItems, "saved");
             renderQuestionList(historyContainer, historyItems, "history");
 
         } catch (error) {

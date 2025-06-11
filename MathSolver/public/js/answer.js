@@ -148,17 +148,30 @@ async function checkAuthAndLoadContent() {
 
         // Tampilkan langkah-langkah solusi
         if (solutionContainer && displaySolutionSteps) {
-            const steps = displaySolutionSteps.split('\n').filter(step => step.trim() !== '');
-            solutionContainer.innerHTML = '';
-            steps.forEach(step => {
-                const soluItem = document.createElement('div');
-                soluItem.className = 'solu-item';
-                // Bungkus setiap langkah dalam delimiter KaTeX inline
-                soluItem.innerHTML = `\\(${step}\\)`;
-                solutionContainer.appendChild(soluItem);
-            });
-            if (typeof renderMathInElement === 'function') {
-                renderMathInElement(solutionContainer);
+            try {
+                const parsedSteps = JSON.parse(displaySolutionSteps); // Parse JSON string
+
+                if (parsedSteps.steps && Array.isArray(parsedSteps.steps)) {
+                    const steps = parsedSteps.steps;
+
+                    solutionContainer.innerHTML = '';
+                    steps.forEach(step => {
+                        const soluItem = document.createElement('div');
+                        soluItem.className = 'solu-item';
+                        // Bungkus transformasi dalam KaTeX inline
+                        soluItem.innerHTML = `\\(${step.transformasi}\\)`;
+                        solutionContainer.appendChild(soluItem);
+                    });
+
+                    if (typeof renderMathInElement === 'function') {
+                        renderMathInElement(solutionContainer);
+                    }
+                } else {
+                    solutionContainer.innerHTML = '<div class="solu-item">Format data langkah tidak valid.</div>';
+                }
+            } catch (error) {
+                console.error('Gagal parse langkah_penyelesaian:', error);
+                solutionContainer.innerHTML = '<div class="solu-item">Terjadi kesalahan saat memuat langkah solusi.</div>';
             }
         } else {
             solutionContainer.innerHTML = '<div class="solu-item">Langkah-langkah solusi tidak tersedia.</div>';

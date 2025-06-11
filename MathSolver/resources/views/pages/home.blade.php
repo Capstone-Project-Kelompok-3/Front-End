@@ -250,8 +250,21 @@
                 }
 
                 const solveData = await response.json();
+                const latex = solveData.latex;
 
-                alert('Soal: ' + solveData.latex + '\nLangkah:\n' + solveData.solution_steps);
+                // Decode string JSON dari field "answer"
+                let parsedAnswer;
+                try {
+                    parsedAnswer = JSON.parse(solveData.answer);
+                } catch (err) {
+                    throw new Error("Format data 'answer' tidak valid");
+                }
+
+                const stepsList = parsedAnswer.steps.map(step => step.transformasi).join('\n');
+
+                
+
+                alert('Soal: ' + latex + '\nLangkah:\n' + stepsList);
 
                 // Simpan ke backend jika login
                 if (token && apiKey) {
@@ -263,8 +276,8 @@
                             'Authorization': `Bearer ${token}`
                         },
                         body: JSON.stringify({
-                            soal: solveData.latex,
-                            langkahPenyelesaian: solveData.solution_steps
+                            soal: latex,
+                            langkahPenyelesaian: solveData.answer
                         })
                     });
 
@@ -283,8 +296,8 @@
                     console.log('User tidak login, skip simpan.');
                 }
 
-                localStorage.setItem('currentQuestion', solveData.latex);
-                localStorage.setItem('currentSolutionSteps', solveData.solution_steps);
+                localStorage.setItem('currentQuestion', latex);
+                localStorage.setItem('currentSolutionSteps', solveData.answer);
 
                 window.location.href = '{{ route("answer") }}';
 
